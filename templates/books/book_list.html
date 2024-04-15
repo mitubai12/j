@@ -1,0 +1,16 @@
+<h1>
+    Books:
+</h1>
+
+{% for book in books %}
+    <div>
+        <h2>Название: {{ book.title }}</h2>
+        <p>
+            Год релиза: {{ book.released }}
+        </p>
+        <p>
+            Оценка: {{ book.rate }}
+        </p>
+        <a href='/book/{{ book.id }}'>Read more</a>
+    </div>
+{% endfor %}
