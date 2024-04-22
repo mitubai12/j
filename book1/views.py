@@ -64,6 +64,6 @@ def review_create_view(request):
         if form.is_valid():
             form.save()
 
-            return redirect('book_detail_view')
+            return redirect('/books')
 
         return render(request, 'books/book_list.html', {'form': form})

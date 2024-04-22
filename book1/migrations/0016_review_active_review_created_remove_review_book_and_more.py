@@ -17,12 +17,6 @@ class Migration(migrations.Migration):
             name='active',
             field=models.BooleanField(default=True),
         ),
-        migrations.AddField(
-            model_name='review',
-            name='created',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
-            preserve_default=False,
-        ),
         migrations.RemoveField(
             model_name='review',
             name='book',
@@ -31,11 +25,5 @@ class Migration(migrations.Migration):
             model_name='review',
             name='text',
             field=models.CharField(max_length=80),
-        ),
-        migrations.AddField(
-            model_name='review',
-            name='book',
-            field=models.ForeignKey(default=django.utils.timezone.now, on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='book1.book'),
-            preserve_default=False,
         ),
     ]
