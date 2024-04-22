@@ -1,8 +1,8 @@
-from django.shortcuts import render, HttpResponse
-from datetime import datetime
+from django.shortcuts import render, HttpResponse, redirect
 import random
 
 from book1.models import Book
+from book1.forms import BookForm, BookForm2, ReviewForm2, ReviewForm
 
 jokes = [
     "С отправленным на Марс американским марсоходом прервалась связь.\nЧерез неделю его нашли в Узбекистане с перебитыми номерами.",
@@ -20,9 +20,7 @@ def anekdot_view(request):
         return HttpResponse(joke)
 
 def main_view(request):
-    curr_datetime = datetime.now()
-    time = {'curr_datetime': curr_datetime}
-    return render(request, 'main.html', time)
+    return render(request, 'main.html')
 
 def book_list_view(request):
     if request.method == 'GET':
@@ -39,3 +37,33 @@ def book_detail_view(request, book_id):
             return HttpResponse('Book not found', status=404)
         context = {'book': book}
         return render(request, 'books/book_detail.html', context)
+
+
+def book_create_view(request):
+    if request.method == 'GET':
+        form = BookForm2()
+        return render(request, 'books/book_create.html', {'form': form})
+    elif request.method == 'POST':
+        form = BookForm2(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect('book_list_view')
+
+        return render(request, 'books/book_create.html', {'form': form})
+
+
+def review_create_view(request):
+    if request.method == 'GET':
+        form = ReviewForm2()
+        return render(request, 'books/create_review.html', {'form': form})
+    elif request.method == 'POST':
+        form = ReviewForm2(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect('book_detail_view')
+
+        return render(request, 'books/book_list.html', {'form': form})

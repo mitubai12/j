@@ -28,7 +28,7 @@ class Category(models.Model):
 
 
 class Book(models.Model):
-    image = models.ImageField(upload_to='media/', null=True, blank=True, default='meme.jpeg')
+    image = models.ImageField(upload_to='media/', null=True, blank=True)
     title = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     released = models.IntegerField(null=True, blank=True)
@@ -50,9 +50,8 @@ class Book(models.Model):
 
 class Review(models.Model):
     text = models.TextField()
-    book = models.OneToOneField(
-        Book,
-        on_delete=models.CASCADE
+    book = models.ManyToManyField(
+        Book
     )
 
     def __str__(self):

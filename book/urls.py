@@ -18,13 +18,16 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-from book1.views import hello_view, anekdot_view, main_view, book_list_view, book_detail_view
-
+from book1.views import hello_view, anekdot_view, main_view, book_list_view, book_detail_view, book_create_view, review_create_view
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('hello/', hello_view),
-    path('fun/', anekdot_view),
-    path('main/', main_view),
-    path('books/', book_list_view),
-    path("book/<int:book_id>/", book_detail_view),
+
+    path('hello/', hello_view, name="hello_view"),
+    path('fun/', anekdot_view, name='anekdot_view'),
+    path('', main_view, name='main_view'),
+    path('books/', book_list_view, name='book_list_view'),
+    path("book/<int:book_id>/", book_detail_view, name='book_detail_view'),
+    path("books/create/", book_create_view, name='post_create_view'),
+    path("books/create_review/", review_create_view, name='review_create_view'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

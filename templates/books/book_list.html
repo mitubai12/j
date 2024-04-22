@@ -1,23 +1,37 @@
-<h1>
-    Books:
-</h1>
+{% extends 'components/navbar.html' %}
+{% load static %}
 
-{% for book in books %}
-    {% for category in book.category.all %}
-        {% load static %}
-        <div>
-            {% if book.image %}
-                <p>ЭТО МЕДИА ФАЙЛ, ЕСЛИ ВЫ ВЫИДИТЕ ЭТО ТО У КНИГИ ЕСТЬ КАРТИНКА</p>
-                <img src="/media/{{ book.image }}" alt="book">
-            {% else %}
-                <p>Это СТАТИК ФАЙЛ, ЕСЛИ ВЫ ВИДИТЕ ЭТО ТО У КНИГИ НЕТ КАРТИНКИ</p>
-                <img src="{% static 'meme.jpeg' %}" alt="static">
-            {% endif %}
-            <h1>Название: {{ book.title }}</h1>
-            <h1>Категория: {{ category.title }}</h1>
-            <p>Год релиза: {{ book.released }}</p>
-            <p>Оценка: {{ book.rate }}</p>
-            <a href='/book/{{ book.id }}'>Read more</a>
+{% block content %}
+
+<body style="background-color: cornflowerblue">
+    <h1 class="text-center mt-5 mb-4">Books</h1>
+        <div class="container">
+            <div class="row justify-content-center">
+                {% for book in books %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow">
+                        {% if book.image %}
+                            <img src="/media/{{ book.image }}" class="card-img-top" alt="Book Cover">
+                        {% else %}
+                            <img src="{% static 'notfound.webp' %}" class="card-img-top" alt="Default Cover">
+                        {% endif %}
+                        <div class="card-body">
+                            <h2 class="card-title">{{ book.title }}</h2>
+                            {% for category in book.category.all %}
+                            <h3 class="card-category">Категория: {{ category.title }}</h3>
+                            {% endfor %}
+                            <ul class="list-unstyled">
+                                {% for tag in book.tag.all %}
+                                    <li><span class="badge badge-pill badge-secondary"><a href="/tags/{{ tag.slug }}">{{ tag.title }}</a></span></li>
+                                {% endfor %}
+                            </ul>
+                            <a href="/book/{{ book.id }}" class="btn btn-primary btn-sm">Посмотреть</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-    {% endfor %}
-{% endfor %}
+</body>
+
+{% endblock %}
